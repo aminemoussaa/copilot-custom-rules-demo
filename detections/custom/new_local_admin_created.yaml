@@ -1,0 +1,34 @@
+name: New Local Administrator Account Created
+id: f07fb555-4945-46b3-91ef-7a7f3f068b97
+version: 1
+schema_version: "1.0"
+date: "2026-08-26"
+author: aminemoussaa (custom)
+description: >
+  Detects the creation of a new local user account (Windows Security Event ID
+  4720). Attackers frequently create local accounts for persistence after
+  gaining a foothold. Review whether the account creation was expected.
+data_source:
+  - Windows Security Event Log
+how_to_implement: >
+  Requires Windows Security event log collection with account-management auditing
+  enabled so that Event ID 4720 (a user account was created) is recorded.
+known_false_positives: >
+  Legitimate provisioning, onboarding automation, and IT admin activity create
+  accounts routinely. Tune out known service/automation accounts.
+response:
+  risk_score: 60
+  severity: medium
+tags:
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1136.001
+  custom_tags:
+    - custom
+    - persistence
+    - account-creation
+  product:
+    - Windows
+  security_domain: endpoint
+graylog:
+  query: data_win_system_eventID:"4720"

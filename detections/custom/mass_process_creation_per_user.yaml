@@ -1,0 +1,44 @@
+name: Mass Process Creation By A Single User
+id: 4904f816-d16a-4a76-95be-11b60e911576
+version: 1
+schema_version: "1.0"
+date: "2026-08-26"
+author: aminemoussaa (custom)
+description: >
+  Detects a single user spawning an unusually high number of processes within a
+  short window (Sysmon Event ID 1). A burst of process creation can indicate
+  scripted execution, tooling drops, or hands-on-keyboard activity.
+data_source:
+  - Windows Sysmon
+how_to_implement: >
+  Requires Sysmon with process-creation logging (Event ID 1) shipped to Graylog,
+  including the target user name field used for grouping.
+known_false_positives: >
+  Build agents, software deployment, and power users running automation can
+  legitimately create many processes. Tune the threshold per environment and
+  exclude known automation accounts.
+response:
+  risk_score: 65
+  severity: medium
+tags:
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1059
+  custom_tags:
+    - custom
+    - execution
+    - aggregation
+  product:
+    - Windows
+  security_domain: endpoint
+graylog:
+  query: data_win_system_eventID:"1"
+aggregation:
+  enabled: true
+  function: count
+  field: null
+  group_by:
+    - data_win_eventdata_targetUserName
+  window: 10m
+  threshold: 30
+  condition: ">"

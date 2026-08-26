@@ -1,0 +1,36 @@
+name: Office 365 Risky Sign-in Detected
+id: 0d3f840f-7ea8-4962-b78e-458e7bcc3712
+version: 1
+schema_version: "1.0"
+date: "2026-08-26"
+author: aminemoussaa (custom)
+description: >
+  Detects an Office 365 sign-in flagged by Azure AD Identity Protection as risky
+  (e.g. anonymous IP, unfamiliar location, or impossible travel). Risky sign-ins
+  often precede account takeover and should be reviewed against the user's normal
+  behaviour.
+data_source:
+  - Office 365 Management Activity API
+  - "Workload: AzureActiveDirectory"
+how_to_implement: >
+  Requires the Office 365 audit ingestion pipeline feeding Graylog, with Azure AD
+  sign-in risk events (UserLoggedIn / risk detections) recorded.
+known_false_positives: >
+  Travelling users, VPNs, and corporate proxies can trigger risk flags. Correlate
+  with MFA outcome and known-good source IPs before escalating.
+response:
+  risk_score: 70
+  severity: high
+tags:
+  asset_type: Cloud Identity
+  mitre_attack_id:
+    - T1078.004
+  custom_tags:
+    - custom
+    - o365
+    - account-takeover
+  product:
+    - Office 365
+  security_domain: cloud
+graylog:
+  query: data_office365_Operation:"UserLoggedIn" AND data_office365_ResultStatus:"Success" AND _exists_:data_office365_RiskState
