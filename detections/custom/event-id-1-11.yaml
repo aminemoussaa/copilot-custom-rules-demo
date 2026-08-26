@@ -1,0 +1,28 @@
+name: event id 1 + 11 
+id: c92da581-d54e-41dc-925f-17c447e3d607
+version: 1
+schema_version: "1.0"
+date: "2026-08-26"
+author: SOCFortress LLC
+description: >
+  Describe what this rule detects and why it matters.
+data_source:
+  - Windows Security Event Log
+how_to_implement: >
+  What must be collected or enabled for this rule to fire.
+known_false_positives: >
+  Known benign activity that can trigger this, and how to tune it out.
+response:
+  risk_score: 50
+  severity: medium
+tags:
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1098
+  custom_tags:
+    - example
+  product:
+    - Wazuh
+  security_domain: endpoint
+graylog:
+  query: data_win_system_eventID:"1" OR data_win_system_eventID:"11"
