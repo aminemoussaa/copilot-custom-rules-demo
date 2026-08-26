@@ -31,4 +31,4 @@ tags:
     - Windows
   security_domain: endpoint
 graylog:
-  query: data_win_system_eventID:"4720"
+  query: data_win_system_eventID:"472"
