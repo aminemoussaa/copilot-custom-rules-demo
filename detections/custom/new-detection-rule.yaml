@@ -1,0 +1,28 @@
+name: New Detection Rule
+id: 6c25e3b5-ca45-474a-9a21-dc7ed6c02762
+version: 1
+schema_version: "1.0"
+date: "2026-08-28"
+author: SOCFortress LLC
+description: >
+  Describe what this rule detects and why it matters.
+data_source:
+  - Windows Security Event Log
+how_to_implement: >
+  What must be collected or enabled for this rule to fire.
+known_false_positives: >
+  Known benign activity that can trigger this, and how to tune it out.
+response:
+  risk_score: 50
+  severity: medium
+tags:
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1098
+  custom_tags:
+    - example
+  product:
+    - Wazuh
+  security_domain: endpoint
+graylog:
+  query: data_win_system_eventID:"4706"
